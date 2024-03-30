@@ -1,6 +1,6 @@
 
 import { VStack } from "@chakra-ui/layout";
-import { Poke } from "../components/Poke";
+import { Poke } from "../components/poke";
 import Navigation from "../components/navigation";
 import { FarcasterProfile } from "../components/SignInWithFarcaster";
 
