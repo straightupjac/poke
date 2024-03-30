@@ -26,7 +26,7 @@ const { wallets } = getDefaultWallets();
 
 const config = getDefaultConfig({
   appName: 'poke',
-  projectId: '078b8c560444b0a7b034a43e90569c50',
+  projectId: process.env.WALLET_CONNECT_KEY || 'test',
   wallets: [
     ...wallets,
     {
@@ -35,10 +35,7 @@ const config = getDefaultConfig({
     },
   ],
   chains: [
-    mainnet,
     polygon,
-    optimism,
-    arbitrum,
     base,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
   ],
