@@ -9,8 +9,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 const farcasterConfig = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
-  siweUri: "http://example.com/login",
-  domain: "example.com",
+  siweUri: "https://poke-degens.vercel.app/",
+  domain: "https://poke-degens.vercel.app/",
 };
 
 export function Providers({ children }: { children: React.ReactNode }) {
