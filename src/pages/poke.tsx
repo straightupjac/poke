@@ -1,5 +1,5 @@
 import Navigation from "@components/navigation";
-import { Poke } from "@components/Poke";
+import { Poke } from "@components/poke";
 
 export default function Home() {
   return (
