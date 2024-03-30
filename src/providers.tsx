@@ -9,10 +9,6 @@ import { NEXT_PUBLIC_URL_BASE } from './config';
 
 const farcasterConfig = {
   rpcUrl: "https://mainnet.optimism.io",
-  // siweUri: NEXT_PUBLIC_URL_BASE,
-  // domain: NEXT_PUBLIC_URL_BASE,
-  siweUri: "http://example.com/login",
-  domain: "example.com",
 };
 
 export function Providers({ children }: { children: React.ReactNode }) {

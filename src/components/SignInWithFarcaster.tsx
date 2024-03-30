@@ -7,6 +7,14 @@ import { useCallback, useState } from "react";
 
 export const SignInWithFarcaster = () => {
   const [error, setError] = useState(false);
+  const {
+    isAuthenticated,
+    profile: {
+      username,
+      pfpUrl,
+      fid
+    }
+  } = useProfile();
 
   const getNonce = useCallback(async () => {
     const nonce = await getCsrfToken();
@@ -16,11 +24,12 @@ export const SignInWithFarcaster = () => {
 
   return (
     <div>
-      <div >
+      {<div >
         <SignInButton nonce={() => getNonce()} onError={() => setError(true)} />
         {error && <div>Unable to sign in at this time.</div>}
-      </div>
+      </div>}
     </div>
+
   )
 }
 
