@@ -1,10 +1,10 @@
-import { NEXT_PUBLIC_URL } from "@/app/config";
 import {
   FrameRequest,
   getFrameMessage,
   getFrameHtmlResponse,
 } from "@coinbase/onchainkit/frame";
 import { NextRequest, NextResponse } from "next/server";
+import { NEXT_PUBLIC_URL } from "src/app/config";
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = "";

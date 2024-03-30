@@ -3,6 +3,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 export default function Navigation() {
+
   return (
     <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex">
       <HStack spacing={2} justify='space-between' width='100%'>

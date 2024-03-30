@@ -12,19 +12,17 @@ import {
   ledgerWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import {
-  arbitrum,
   base,
-  mainnet,
-  optimism,
   polygon,
   sepolia,
 } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
+import '@farcaster/auth-kit/styles.css';
 
 const { wallets } = getDefaultWallets();
 
-const config = getDefaultConfig({
+const rainbowConfig = getDefaultConfig({
   appName: 'poke',
   projectId: process.env.WALLET_CONNECT_KEY || 'test',
   wallets: [
@@ -42,13 +40,22 @@ const config = getDefaultConfig({
   ssr: true,
 });
 
+const farcasterConfig = {
+  relay: "https://relay.farcaster.xyz",
+  rpcUrl: "https://mainnet.optimism.io",
+  siweUri: "http://example.com/login",
+  domain: "example.com",
+};
+
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={rainbowConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider modalSize="compact">{children}</RainbowKitProvider>
+        <RainbowKitProvider modalSize="compact">
+          {children}
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
