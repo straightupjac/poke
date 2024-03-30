@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { createAppClient, viemConnector } from "@farcaster/auth-client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NEXT_PUBLIC_URL_BASE } from "@/config";
+import { NEXT_PUBLIC_URL_BASE } from "../../../config";
 
 const auth = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {

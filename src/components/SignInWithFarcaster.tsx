@@ -1,6 +1,7 @@
 import {
   SignInButton,
   useProfile,
+  useSignIn,
 } from "@farcaster/auth-kit";
 import { getCsrfToken } from "next-auth/react";
 import { useCallback, useState } from "react";
@@ -15,6 +16,13 @@ export const SignInWithFarcaster = () => {
       fid
     }
   } = useProfile();
+
+  const {
+    signIn,
+    signOut
+  } = useSignIn({
+    onSuccess: ({ fid }) => console.log('Your fid:', fid),
+  });
 
   const getNonce = useCallback(async () => {
     const nonce = await getCsrfToken();
