@@ -1,9 +1,8 @@
 import {
   SignInButton,
-  AuthKitProvider,
-  StatusAPIResponse,
+  useProfile,
 } from "@farcaster/auth-kit";
-import { getCsrfToken, signIn, signOut, useSession } from "next-auth/react";
+import { getCsrfToken } from "next-auth/react";
 import { useCallback, useState } from "react";
 
 export const SignInWithFarcaster = () => {
@@ -15,29 +14,10 @@ export const SignInWithFarcaster = () => {
     return nonce;
   }, []);
 
-  const handleSuccess = useCallback(
-    (res: StatusAPIResponse) => {
-      console.log('res', res)
-      signIn("credentials", {
-        message: res.message,
-        signature: res.signature,
-        name: res.username,
-        pfp: res.pfpUrl,
-        redirect: false,
-      });
-    },
-    []
-  );
-
   return (
     <div>
       <div >
-        <SignInButton
-          nonce={getNonce}
-          onSuccess={handleSuccess}
-          onError={() => setError(true)}
-          onSignOut={() => signOut()}
-        />
+        <SignInButton nonce={() => getNonce()} onError={() => setError(true)} />
         {error && <div>Unable to sign in at this time.</div>}
       </div>
     </div>
@@ -45,20 +25,20 @@ export const SignInWithFarcaster = () => {
 }
 
 export const FarcasterProfile = () => {
-  const { data: session } = useSession();
+  const {
+    isAuthenticated,
+    profile: {
+      username,
+      pfpUrl,
+      fid
+    }
+  } = useProfile();
 
-  return session ? (
+  console.log('fid')
+
+  return isAuthenticated ? (
     <div style={{ fontFamily: "sans-serif" }}>
-      <p>Signed in as {session.user?.name}</p>
-      <p>
-        <button
-          type="button"
-          style={{ padding: "6px 12px", cursor: "pointer" }}
-          onClick={() => signOut()}
-        >
-          Click here to sign out
-        </button>
-      </p>
+      <p>Signed in as {username}: fid {fid}</p>
     </div>
   ) : (
     <p>
