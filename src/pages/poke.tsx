@@ -1,7 +1,8 @@
-import Navigation from "@/components/navigation";
-import { Poke } from "@/components/poke";
-import { FarcasterProfile } from "@/components/SignInWithFarcaster";
+
 import { VStack } from "@chakra-ui/layout";
+import { Poke } from "../components/poke";
+import Navigation from "../components/navigation";
+import { FarcasterProfile } from "../components/SignInWithFarcaster";
 
 export default function Home() {
   return (
