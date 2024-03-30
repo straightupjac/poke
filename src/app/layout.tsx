@@ -8,7 +8,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
-  title: "Poke $DEGEN",
+  title: "Poke $SILLY",
   description: "poke your degen friends",
 };
 
