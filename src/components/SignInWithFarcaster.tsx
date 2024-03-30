@@ -17,6 +17,7 @@ export const SignInWithFarcaster = () => {
 
   const handleSuccess = useCallback(
     (res: StatusAPIResponse) => {
+      console.log('res', res)
       signIn("credentials", {
         message: res.message,
         signature: res.signature,

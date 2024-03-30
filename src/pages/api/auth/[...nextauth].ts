@@ -45,7 +45,7 @@ const auth = (req: NextApiRequest, res: NextApiResponse) =>
           const verifyResponse = await appClient.verifySignInMessage({
             message: credentials?.message as string,
             signature: credentials?.signature as `0x${string}`,
-            domain: "https://poke-degens.vercel.app/",
+            domain: "https://poke-degen.vercel.app/",
             nonce: csrfToken,
           });
           const { success, fid } = verifyResponse;
