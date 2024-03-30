@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { createAppClient, viemConnector } from "@farcaster/auth-client";
 import { NextApiRequest, NextApiResponse } from "next";
+import { NEXT_PUBLIC_URL_BASE } from "@/config";
 
 const auth = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {
@@ -45,7 +46,7 @@ const auth = (req: NextApiRequest, res: NextApiResponse) =>
           const verifyResponse = await appClient.verifySignInMessage({
             message: credentials?.message as string,
             signature: credentials?.signature as `0x${string}`,
-            domain: "https://poke-degen.vercel.app/",
+            domain: NEXT_PUBLIC_URL_BASE,
             nonce: csrfToken,
           });
           const { success, fid } = verifyResponse;

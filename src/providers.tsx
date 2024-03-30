@@ -4,13 +4,13 @@ import {
 } from "@farcaster/auth-kit";
 import '@farcaster/auth-kit/styles.css';
 import { ChakraProvider } from '@chakra-ui/react'
+import { NEXT_PUBLIC_URL_BASE } from './config';
 
 
 const farcasterConfig = {
-  relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
-  siweUri: "https://poke-degen.vercel.app/",
-  domain: "https://poke-degen.vercel.app/",
+  siweUri: NEXT_PUBLIC_URL_BASE,
+  domain: NEXT_PUBLIC_URL_BASE
 };
 
 export function Providers({ children }: { children: React.ReactNode }) {
