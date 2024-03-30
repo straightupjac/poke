@@ -3,7 +3,7 @@ import {
   AuthKitProvider,
   StatusAPIResponse,
 } from "@farcaster/auth-kit";
-import { getCsrfToken, signIn, signOut } from "next-auth/react";
+import { getCsrfToken, signIn, signOut, useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 
 export const SignInWithFarcaster = () => {
@@ -30,7 +30,7 @@ export const SignInWithFarcaster = () => {
 
   return (
     <div>
-      <div style={{ position: "fixed", top: "12px", right: "12px" }}>
+      <div >
         <SignInButton
           nonce={getNonce}
           onSuccess={handleSuccess}
@@ -41,4 +41,28 @@ export const SignInWithFarcaster = () => {
       </div>
     </div>
   )
+}
+
+export const FarcasterProfile = () => {
+  const { data: session } = useSession();
+
+  return session ? (
+    <div style={{ fontFamily: "sans-serif" }}>
+      <p>Signed in as {session.user?.name}</p>
+      <p>
+        <button
+          type="button"
+          style={{ padding: "6px 12px", cursor: "pointer" }}
+          onClick={() => signOut()}
+        >
+          Click here to sign out
+        </button>
+      </p>
+    </div>
+  ) : (
+    <p>
+      Click the Sign in with Farcaster button above, then scan the QR code to
+      sign in.
+    </p>
+  );
 }
