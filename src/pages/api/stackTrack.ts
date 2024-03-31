@@ -5,13 +5,14 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== "POST") throw new Error("Invalid method");
 
-    const { address, event } = req.body;
-    if (!address || !event) throw new Error("Address and event are required");
+    const { address, stackEvent } = req.body;
+    if (!address || !stackEvent)
+      throw new Error("Address and stackEvent are required");
 
-    if (STACK_EVENTS.indexOf(event) === -1) {
+    if (STACK_EVENTS.indexOf(stackEvent) === -1) {
       throw new Error("Invalid event");
     }
-    const result = await stackClient.track(event, {
+    const result = await stackClient.track(stackEvent, {
       points: 10,
       account: address,
     });

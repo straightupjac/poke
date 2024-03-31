@@ -23,4 +23,12 @@ export class Env {
     }
     return parseInt(STACK_POINT_SYSTEM_ID, 10);
   }
+
+  public static get NEYNAR_SIGNER_UUID(): string {
+    const NEYNAR_SIGNER_UUID = process.env.NEYNAR_SIGNER_UUID;
+    if (!NEYNAR_SIGNER_UUID) {
+      throw new Error("NEYNAR_SIGNER_UUID is not defined");
+    }
+    return NEYNAR_SIGNER_UUID;
+  }
 }

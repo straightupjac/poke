@@ -6,4 +6,8 @@ export const stackClient = new StackClient({
   pointSystemId: Env.STACK_POINT_SYSTEM_ID,
 });
 
-export const STACK_EVENTS = ["user_poke"];
+export enum StackEvent {
+  user_poke = "user_poke",
+}
+
+export const STACK_EVENTS = [StackEvent.user_poke];
