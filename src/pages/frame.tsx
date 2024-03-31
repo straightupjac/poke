@@ -1,5 +1,5 @@
+import { NEXT_PUBLIC_URL } from '@/config';
 import { FrameMetadata } from '@coinbase/onchainkit/frame';
-import { NEXT_PUBLIC_URL } from '../config';
 
 export default function HomePage() {
   return (
