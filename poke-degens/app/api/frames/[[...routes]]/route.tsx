@@ -71,10 +71,11 @@ app.frame('/', (c) => {
 })
 
 app.frame('/poke-back', async (c) => {
-  const { frameData, verified } = c
-  const { fid, castId } = frameData ?? {}
-  if (!_devMode && !verified) console.error('poke-back: Frame verification failed')
   try {
+    const { frameData, verified } = c
+    const { fid, castId } = frameData ?? {}
+    if (!_devMode && !verified) console.error('poke-back: Frame verification failed')
+
     const result = await fetch(`${POST_URL_BASE}/pokeBack`, {
       method: 'POST',
       headers: {
