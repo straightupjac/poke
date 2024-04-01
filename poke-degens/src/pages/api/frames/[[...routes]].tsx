@@ -25,7 +25,7 @@ const app = new Frog({
   secret: secrets.FROG_SECRET,
 })
 
-export const runtime = 'edge'
+// export const runtime = 'edge'
 
 app.frame('/', (c) => {
   return c.res({
