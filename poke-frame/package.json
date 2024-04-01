@@ -3,15 +3,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "frog dev"
+    "build": "frog vercel-build",
+    "dev": "frog dev",
+    "deploy": "vercel"
   },
   "dependencies": {
     "@hono/node-server": "latest",
+    "dotenv": "^16.4.5",
     "frog": "latest",
     "hono": "^4"
   },
   "devDependencies": {
     "@types/node": "^20.12.2",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vercel": "^33.6.2"
   }
 }

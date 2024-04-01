@@ -1,13 +1,22 @@
 import { serveStatic } from '@hono/node-server/serve-static'
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'
-// import { neynar } from 'frog/hubs'
+import { neynar } from 'frog/hubs'
+import { handle } from 'frog/vercel'
 
-const POST_URL_BASE = "http://localhost:3000/api/frame"
+import dotenv from 'dotenv';
+dotenv.config();
+
+const secrets = {
+  FROG_SECRET: process.env.FROG_SECRET,
+  NEYNAR_API_KEY: process.env.NEYNAR_API_KEY ?? '',
+  POST_URL_BASE: process.env.POST_URL_BASE ?? '',
+}
+const POST_URL_BASE = secrets.POST_URL_BASE;
 
 export const app = new Frog({
-  // hub: neynar({ apiKey: 'NEYNAR_ROG_FM' }),
-  secret: process.env.FROG_SECRET
+  hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }),
+  secret: secrets.FROG_SECRET,
 })
 
 app.use('/*', serveStatic({ root: './public' }))
@@ -110,8 +119,6 @@ app.frame('/poke-back', async (c) => {
 })
 
 app.frame('/poke-someone-else', (c) => {
-  const { verified } = c
-  if (!verified) console.log('poke-someone-else: Frame verification failed')
   return c.res({
     image: (
       <div
@@ -212,4 +219,8 @@ app.frame('/send-poke', async (c) => {
 })
 
 
-devtools(app, { serveStatic })
+if (process.env.NODE === 'development') devtools(app, { serveStatic })
+else devtools(app, { assetsPath: '/.frog' })
+
+export const GET = handle(app)
+export const POST = handle(app)
