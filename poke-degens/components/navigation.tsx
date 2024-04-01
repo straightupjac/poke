@@ -28,7 +28,7 @@ export default function Navigation() {
         </Button>
       </Link>
       <Text p={2}> by bob and straightupjac</Text>
-      <ConnectButton />
+      <ConnectButton showBalance={false} />
     </Stack>
   )
 }
