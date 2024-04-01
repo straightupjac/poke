@@ -2,7 +2,7 @@
 poke your friends, earn $DEGEN, climb up the leaderboard
 
 ## Connect your wallet to poke
-![Screenshot 2024-04-01 at 3 11 14 PM](https://github.com/straightupjac/poke/assets/16831223/1472d5db-d535-48f1-8a4b-0b95024045c0)
+![Screenshot 2024-04-01 at 5 12 12 PM](https://github.com/straightupjac/poke/assets/16831223/873a3de3-adfd-4d59-a700-fa14ea8b1aec)
 
 ## Embedded Farcaster Frames to poke back
 ![Screenshot 2024-04-01 at 3 10 47 PM](https://github.com/straightupjac/poke/assets/16831223/c07add5b-f049-4a23-9a85-dde19ec9f566)
