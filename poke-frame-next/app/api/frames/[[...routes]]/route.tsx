@@ -18,7 +18,7 @@ const _devMode = process.env.MODE === 'development'
 
 const app = new Frog({
   assetsPath: '/',
-  basePath: '/api',
+  basePath: '/api/frames',
   ...(!_devMode && { hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }) }),
   secret: secrets.FROG_SECRET,
 })

@@ -39,4 +39,20 @@ export class Env {
     }
     return NEXT_PUBLIC_URL;
   }
+
+  public static get POST_URL_BASE(): string {
+    const POST_URL_BASE = process.env.POST_URL_BASE ?? "";
+    if (!POST_URL_BASE) {
+      throw new Error("POST_URL_BASE is not defined");
+    }
+    return POST_URL_BASE;
+  }
+
+  public static get FROG_SECRET(): string {
+    const FROG_SECRET = process.env.FROG_SECRET;
+    if (!FROG_SECRET) {
+      throw new Error("FROG_SECRET is not defined");
+    }
+    return FROG_SECRET;
+  }
 }
