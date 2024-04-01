@@ -19,6 +19,7 @@ const _devMode = process.env.NODE_ENV === 'development'
 export const app = new Frog({
   ...(!_devMode && { hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }) }),
   secret: secrets.FROG_SECRET,
+  basePath: '/api',
 })
 
 app.use('/*', serveStatic({ root: './public' }))
