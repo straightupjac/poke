@@ -6,17 +6,18 @@ import { Env } from "@/utils/envSetup";
 /**
  * @param req
  * body: {
- *  usernameToPoke: string,
- *  one of the following must be provided:
- *    verifiedAddressOfPoker: string,
- *    custodyAddressOfPoker: string,
+fid: string,
+castId: {
+  hash: string,
+  fid: string,
+}
  * }
  */
-export const POST = async (req: Request, res: NextApiResponse) => {
+export const POST = async (req: Request) => {
   try {
     const reqBody = await req.json();
-    const { fid, castId, messageHash } = reqBody;
-    console.log("pokeBack", fid, castId, messageHash);
+    const { fid, castId } = reqBody;
+    console.log("pokeBack", fid, castId);
 
     if (!fid) throw new Error("fid is required");
     if (!castId) throw new Error("castId is required");
@@ -70,7 +71,6 @@ export const POST = async (req: Request, res: NextApiResponse) => {
       success: true,
     });
   } catch (err) {
-    console.error(err);
     return Response.json({ err }, { status: 403 });
   }
 };
