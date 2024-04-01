@@ -14,7 +14,7 @@ const secrets = {
 }
 const POST_URL_BASE = secrets.POST_URL_BASE;
 
-const _devMode = import.meta.env?.MODE === 'development'
+const _devMode = process.env.NODE_ENV === 'development'
 
 export const app = new Frog({
   ...(!_devMode && { hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }) }),
