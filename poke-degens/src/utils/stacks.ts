@@ -8,6 +8,7 @@ export const stackClient = new StackClient({
 
 export enum StackEvent {
   user_poke = "user_poke",
+  user_poke_back = "user_poke_back",
 }
 
 export const STACK_EVENTS = [StackEvent.user_poke];
