@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   )
   return {
     title: 'Poke Degen',
-    description: 'poke your degen friends',
+    description: 'poke your degen frens',
     other: frameTags,
   }
 }

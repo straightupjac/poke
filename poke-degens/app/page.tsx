@@ -12,7 +12,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center">
       <Navigation />
       <VStack spacing={5} py={10} width="100%">
-        <Text fontSize="2xl">Poke your degen friends 👉</Text>
+        <Text fontSize="2xl">poke your degen frens 👉</Text>
         <FarcasterUser user={farcasterUser} />
         <Poke user={farcasterUser} />
       </VStack>
