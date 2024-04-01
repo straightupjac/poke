@@ -22,7 +22,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!fid) throw new Error("fid is required");
     if (!castId) throw new Error("castId is required");
     console.log("pokeBack", fid, castId);
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, from: "straightupjac", to: "bob" });
   } catch (err) {
     console.error(err);
     res.status(403).json({ err });

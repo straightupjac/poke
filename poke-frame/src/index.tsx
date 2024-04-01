@@ -14,8 +14,10 @@ const secrets = {
 }
 const POST_URL_BASE = secrets.POST_URL_BASE;
 
+const _devMode = process.env.NODE_ENV === 'development'
+
 export const app = new Frog({
-  hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }),
+  ...(!_devMode && { hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }) }),
   secret: secrets.FROG_SECRET,
 })
 
@@ -56,7 +58,8 @@ app.frame('/', (c) => {
     ),
     intents: [
       <Button action="/poke-back">poke back</Button>,
-      <Button action="/poke-someone-else">poke others</Button>,
+      // <Button action="/poke-someone-else">poke others</Button>,
+      <Button.Redirect location="https://pokedegens.xyz/poke">Poke others</Button.Redirect>,
       <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
     ],
   })
@@ -65,7 +68,7 @@ app.frame('/', (c) => {
 app.frame('/poke-back', async (c) => {
   const { frameData, verified } = c
   const { fid, castId } = frameData ?? {}
-  if (!verified) console.error('poke-back: Frame verification failed')
+  if (!_devMode && !verified) console.error('poke-back: Frame verification failed')
   const result = await fetch(`${POST_URL_BASE}/pokeBack`, {
     method: 'POST',
     headers: {
@@ -77,7 +80,8 @@ app.frame('/poke-back', async (c) => {
     }),
   })
   const data = await result.json();
-  console.log('poke-back', data);
+  const { success, from, to } = data;
+  console.log('poke-back', success, from, to);
 
   return c.res({
     image: (
@@ -107,7 +111,7 @@ app.frame('/poke-back', async (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          Poked back! 🐸
+          You poked back! 🐸
         </div>
       </div>
     ),
@@ -161,7 +165,7 @@ app.frame('/poke-someone-else', (c) => {
 
 app.frame('/send-poke', async (c) => {
   const { verified, frameData, } = c
-  if (!verified) console.log('send-poke: Frame verification failed')
+  if (!_devMode && !verified) console.log('send-poke: Frame verification failed')
   const { fid, castId, inputText: usernameToPoke } = frameData ?? {}
 
   const result = await fetch(`${POST_URL_BASE}/pokeOther`, {
@@ -219,7 +223,7 @@ app.frame('/send-poke', async (c) => {
 })
 
 
-if (process.env.NODE === 'development') devtools(app, { serveStatic })
+if (_devMode) devtools(app, { serveStatic })
 else devtools(app, { assetsPath: '/.frog' })
 
 export const GET = handle(app)
