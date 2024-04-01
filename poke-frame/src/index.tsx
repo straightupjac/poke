@@ -20,9 +20,8 @@ export const app = new Frog({
   ...(!_devMode && { hub: neynar({ apiKey: secrets.NEYNAR_API_KEY }) }),
   secret: secrets.FROG_SECRET,
   basePath: '/api',
+  browserLocation: '/:path'
 })
-
-app.use('/*', serveStatic({ root: './public' }))
 
 app.frame('/', (c) => {
   return c.res({
