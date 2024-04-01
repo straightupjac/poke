@@ -26,7 +26,6 @@ export const POST = async (req: Request) => {
       castId.hash,
       "hash"
     );
-
     const { cast } = result;
     const mentionedProfiles = cast.mentioned_profiles;
     const text = cast.text;

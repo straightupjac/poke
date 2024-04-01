@@ -74,19 +74,62 @@ app.frame('/poke-back', async (c) => {
   const { frameData, verified } = c
   const { fid, castId } = frameData ?? {}
   if (!_devMode && !verified) console.error('poke-back: Frame verification failed')
-  const result = await fetch(`${POST_URL_BASE}/pokeBack`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      castId,
-      fid,
-    }),
-  })
-  const data = await result.json();
-  const { success, from, to } = data;
-  console.log('poke-back', success, from, to);
+  try {
+    const result = await fetch(`${POST_URL_BASE}/pokeBack`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        castId,
+        fid,
+      }),
+    })
+    const data = await result.json();
+    const { success, from, to } = data;
+    console.log('poke-back', success, from, to);
+  } catch (e) {
+    console.error('poke-back', e)
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#8A63D2',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 60,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              marginTop: 30,
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            We had some trouble 😢 Poke back on pokedegens.xyz 🫵
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action='/'>go back</Button>,
+        <Button.Redirect location="https://pokedegens.xyz">poke</Button.Redirect>,
+        <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+      ],
+    })
+  }
+
 
   return c.res({
     image: (
