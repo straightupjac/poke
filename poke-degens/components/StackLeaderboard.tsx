@@ -17,7 +17,7 @@ export const StackLeaderboard = ({ leaderboard }: { leaderboard: StackLeaderboar
 
   return (
     <VStack width='100%'>
-      {leaderboard.slice(0, 3).map((row, index) => (
+      {leaderboard.map((row, index) => (
         <LeaderboardRow key={index} idx={index} row={row} />
       ))}
       {/* <Text >

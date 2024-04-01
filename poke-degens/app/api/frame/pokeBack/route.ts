@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { neynarClient, POKE_CHANNEL_ID } from "@/utils/neynar/neynar";
 import { stackClient, StackEvent } from "@/utils/stacks";
 import { Env } from "@/utils/envSetup";
+import { FRAME_URL } from "@/utils/crypto";
 
 /**
  * @param req
@@ -57,6 +58,11 @@ export const POST = async (req: Request) => {
       Env.NEYNAR_SIGNER_UUID,
       `@${fromUsername} poked @${usernameToPoke}`,
       {
+        embeds: [
+          {
+            url: FRAME_URL,
+          },
+        ],
         channelId: POKE_CHANNEL_ID,
       }
     );
