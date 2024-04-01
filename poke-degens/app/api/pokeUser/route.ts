@@ -63,7 +63,7 @@ export const POST = async (req: Request) => {
     /** publish poke cast on warpcast */
     await neynarClient.publishCast(
       Env.NEYNAR_SIGNER_UUID,
-      `@${fromUsername} poked @${usernameToPoke} \n ${FRAME_URL}`,
+      `@${fromUsername} poked @${usernameToPoke} \n${FRAME_URL}`,
       {
         channelId: POKE_CHANNEL_ID,
       }
