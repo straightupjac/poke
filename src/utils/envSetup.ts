@@ -31,4 +31,12 @@ export class Env {
     }
     return NEYNAR_SIGNER_UUID;
   }
+
+  public static get NEXT_PUBLIC_URL(): string {
+    const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
+    if (!NEXT_PUBLIC_URL) {
+      throw new Error("NEXT_PUBLIC_URL is not defined");
+    }
+    return NEXT_PUBLIC_URL;
+  }
 }
