@@ -27,7 +27,9 @@ export const Poke = ({ user }: { user: User | null }) => {
         <Button
           isDisabled={!usernameToPoke}
           onClick={onPoke}
-        >poke</Button>
+        >
+          poke
+        </Button>
       </VStack>
     </Card >
   )

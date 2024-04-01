@@ -31,7 +31,6 @@ const LeaderboardRow = ({ idx, row }: {
     chainId: mainnet.id
   })
 
-  console.log('result', ensName)
   return (
     <HStack justify='space-between' width={'100%'}>
       <HStack>
