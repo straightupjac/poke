@@ -9,3 +9,11 @@ poke your friends, earn $DEGEN, climb up the leaderboard
 
 ## Climb up the leaderboard
 ![Screenshot 2024-04-01 at 3 13 01 PM](https://github.com/straightupjac/poke/assets/16831223/cc3be6c8-d287-4c9f-98a1-33cc78bdbf5d)
+
+---
+brought to you by straightupjac & bob
+
+x: [straightupjac](https://x.com/straightupjac) [BobbyThakkar](https://twitter.com/BobbyThakkar)
+
+
+warpcast: [straightupjac](https://warpcast.com/straightupjac) [bob](https://warpcast.com/bob)
