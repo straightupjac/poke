@@ -34,7 +34,7 @@ app.frame('/', (c) => {
       <div
         style={{
           alignItems: 'center',
-          background: 'linear-gradient(to right, #432889, #17101F)',
+          background: 'linear-gradient(to right, #8A63D2, #17101F)',
           backgroundSize: '100% 100%',
           display: 'flex',
           flexDirection: 'column',
@@ -62,10 +62,10 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <Button action="/poke-back">Poke Back</Button>,
-      // <Button action="/poke-someone-else">poke others</Button>,
-      <Button.Redirect location="https://pokedegens.xyz">Poke others</Button.Redirect>,
-      <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
+      <Button action="/poke-back">poke back</Button>,
+      <Button action="/poke-someone-else">poke others</Button>,
+      // <Button.Redirect location="https://pokedegens.xyz">Poke others</Button.Redirect>,
+      <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
   })
 })
@@ -93,7 +93,7 @@ app.frame('/poke-back', async (c) => {
       <div
         style={{
           alignItems: 'center',
-          background: 'black',
+          background: '#8A63D2',
           backgroundSize: '100% 100%',
           display: 'flex',
           flexDirection: 'column',
@@ -116,13 +116,13 @@ app.frame('/poke-back', async (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          You poked back! 🐸
+          You poked back! 🫵
         </div>
       </div>
     ),
     intents: [
       <Button action='/'>go back</Button>,
-      <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
+      <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
   })
 })
@@ -133,7 +133,7 @@ app.frame('/poke-someone-else', (c) => {
       <div
         style={{
           alignItems: 'center',
-          background: 'black',
+          background: '#8A63D2',
           backgroundSize: '100% 100%',
           display: 'flex',
           flexDirection: 'column',
@@ -156,14 +156,15 @@ app.frame('/poke-someone-else', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          Poke someone
+          Poke someone 🤭
         </div>
       </div>
     ),
     intents: [
       <TextInput placeholder="Enter username to poke" />,
-      <Button action='/send-poke'>Poke</Button>,
-      <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
+      // <Button action='/send-poke'>Poke</Button>,
+      <Button.Redirect location="https://pokedegens.xyz">poke</Button.Redirect>,
+      <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
   })
 })
@@ -193,7 +194,7 @@ app.frame('/send-poke', async (c) => {
       <div
         style={{
           alignItems: 'center',
-          background: 'black',
+          background: '#8A63D2',
           backgroundSize: '100% 100%',
           display: 'flex',
           flexDirection: 'column',
@@ -216,13 +217,13 @@ app.frame('/send-poke', async (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          You poked! 🐸
+          You poked! 🫵
         </div>
       </div>
     ),
     intents: [
       <Button action='/'>go back</Button>,
-      <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
+      <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
   })
 })
