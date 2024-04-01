@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Navigation() {
+
   return (
     <Stack direction={['column', 'column', 'row']}
       spacing={4}

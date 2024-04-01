@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /** @jsxImportSource frog/jsx */
 
 import { Button, Frog, TextInput } from 'frog'
