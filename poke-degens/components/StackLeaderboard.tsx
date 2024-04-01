@@ -17,15 +17,15 @@ export const StackLeaderboard = ({ leaderboard }: { leaderboard: StackLeaderboar
 
   return (
     <VStack width='100%'>
-      {leaderboard.map((row, index) => (
+      {leaderboard.slice(0, 5).map((row, index) => (
         <LeaderboardRow key={index} idx={index} row={row} />
       ))}
-      {/* <Text >
-        <Link
-          href='https://www.stack.so/leaderboard/poke?viewAsPublic=true'
-          target="_blank"
-        ><Button variant='ghosted' px={0}> More on Stacks Leaderboard</Button></Link>
-      </Text> */}
+      <Text >
+      </Text>
+      <Link
+        href='https://www.stack.so/leaderboard/poke?viewAsPublic=true'
+        target="_blank"
+      ><Button variant='outline'> More on Stacks Leaderboard</Button></Link>s
     </VStack>
   )
 }
