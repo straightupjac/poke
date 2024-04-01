@@ -3,6 +3,7 @@ import { neynarClient, POKE_CHANNEL_ID } from "@/utils/neynar/neynar";
 import { stackClient, StackEvent } from "@/utils/stacks";
 import { Env } from "@/utils/envSetup";
 import { NextResponse } from "next/server";
+import { FRAME_URL } from "@/utils/crypto";
 
 /**
  * @param req
@@ -62,7 +63,7 @@ export const POST = async (req: Request) => {
     /** publish poke cast on warpcast */
     await neynarClient.publishCast(
       Env.NEYNAR_SIGNER_UUID,
-      `@${fromUsername} poked @${usernameToPoke}`,
+      `@${fromUsername} poked @${usernameToPoke} \n ${FRAME_URL}`,
       {
         channelId: POKE_CHANNEL_ID,
       }

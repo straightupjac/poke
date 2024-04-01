@@ -1,8 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import isString from "lodash/isString";
 import { neynarClient } from "@/utils/neynar/neynar";
 
-export const GET = async (req: Response) => {
+export const GET = async (req: Request) => {
   try {
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
