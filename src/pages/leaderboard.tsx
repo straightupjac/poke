@@ -1,6 +1,7 @@
 import StackLeaderboard, { StackLeaderboardRow } from "@/components/StackLeaderboard";
 import Navigation from "@/components/navigation";
 import { stackClient } from "@/utils/stacks";
+import { Container } from "@chakra-ui/layout";
 
 
 type LeaderboardProps = {
@@ -9,14 +10,16 @@ type LeaderboardProps = {
 
 export default function Leaderboard(props: LeaderboardProps) {
   return (
-    <main className="flex min-h-screen flex-col p-24 items-center">
-      <Navigation />
-      <div className="pt-4">
-        <h2 className={`mb-3 text-2xl font-semibold`}>
-          Leaderboard
-        </h2>
-        <StackLeaderboard leaderboard={props.leaderboard} />
-      </div>
+    <main>
+      <Container py={5} px={8}>
+        <Navigation />
+        <div className="pt-4">
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Leaderboard
+          </h2>
+          <StackLeaderboard leaderboard={props.leaderboard} />
+        </div>
+      </Container>
     </main>
   );
 }

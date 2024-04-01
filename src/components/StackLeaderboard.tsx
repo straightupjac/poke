@@ -1,7 +1,7 @@
 import { HStack, Text, VStack } from "@chakra-ui/layout";
 import { mainnet } from "wagmi/chains";
 import { useEnsName } from "wagmi";
-import { parseAddress, } from "@/utils/crypto";
+import { abridgeAddress, parseAddress, } from "@/utils/crypto";
 
 export type StackLeaderboardRow = {
   address: string;
@@ -39,7 +39,7 @@ const LeaderboardRow = ({ idx, row }: {
           {idx + 1}
         </Text>
         <Text>
-          {ensName || row.address}
+          {ensName || abridgeAddress(row.address)}
         </Text>
       </HStack>
       <Text>
