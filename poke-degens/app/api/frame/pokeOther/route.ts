@@ -13,7 +13,7 @@ import { Env } from "@/utils/envSetup";
  *    custodyAddressOfPoker: string,
  * }
  */
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== "POST") throw new Error("Invalid method");
     console.log("pokeOther", req.body);
@@ -22,11 +22,9 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!fid) throw new Error("fid is required");
     if (!castId) throw new Error("castId is required");
 
-    res.status(200).json({ success: true });
+    res.status(400).json({ message: "not implemented yet" });
   } catch (err) {
     console.error(err);
     res.status(403).json({ err });
   }
 };
-
-export default handler;

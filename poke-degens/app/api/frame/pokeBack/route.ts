@@ -12,10 +12,10 @@ import { Env } from "@/utils/envSetup";
  *    custodyAddressOfPoker: string,
  * }
  */
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export const POST = async (req: Request, res: NextApiResponse) => {
   try {
-    if (req.method !== "POST") throw new Error("Invalid method");
-    const { fid, castId, messageHash } = req.body;
+    const reqBody = await req.json();
+    const { fid, castId, messageHash } = reqBody;
     console.log("pokeBack", fid, castId, messageHash);
 
     if (!fid) throw new Error("fid is required");
@@ -24,14 +24,6 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       castId.hash,
       "hash"
     );
-    const pokeUser = (await neynarClient.fetchBulkUsers([fid])).users[0];
-    const fromUsername = pokeUser.username;
-    let address = null;
-    if (pokeUser.verified_addresses.eth_addresses.length) {
-      address = pokeUser.verified_addresses.eth_addresses[0];
-    } else {
-      address = pokeUser.custody_address;
-    }
 
     const { cast } = result;
     const mentionedProfiles = cast.mentioned_profiles;
@@ -39,6 +31,25 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("pokeBack", mentionedProfiles, text);
 
     const usernameToPoke = mentionedProfiles[0].username;
+    const usernamePoked = mentionedProfiles[1].username;
+
+    const pokeUser = (await neynarClient.fetchBulkUsers([fid])).users[0];
+    const fromUsername = pokeUser.username;
+    if (fromUsername !== usernamePoked) {
+      return Response.json(
+        {
+          message: "You can only poke back the user who poked you",
+          success: false,
+        },
+        { status: 403 }
+      );
+    }
+    let address = null;
+    if (pokeUser.verified_addresses.eth_addresses.length) {
+      address = pokeUser.verified_addresses.eth_addresses[0];
+    } else {
+      address = pokeUser.custody_address;
+    }
 
     /** publish poke cast on warpcast */
     await neynarClient.publishCast(
@@ -54,14 +65,12 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       points: 10,
       account: address,
     });
-    res.status(200).json({
+    Response.json({
       message: `${fromUsername} poked ${usernameToPoke} back! Points added to ${address}`,
       success: true,
     });
   } catch (err) {
     console.error(err);
-    res.status(403).json({ err });
+    Response.json({ err }, { status: 403 });
   }
 };
-
-export default handler;
