@@ -45,6 +45,9 @@ export class Env {
     if (!POST_URL_BASE) {
       throw new Error("POST_URL_BASE is not defined");
     }
+    if (process.env.NODE_ENV === "development") {
+      return "http://localhost:3000/api/frame";
+    }
     return POST_URL_BASE;
   }
 

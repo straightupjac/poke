@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 /** @jsxImportSource frog/jsx */
 
+import { Env } from '@/utils/envSetup'
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'
 import { neynar } from 'frog/hubs'
@@ -8,9 +9,9 @@ import { handle } from 'frog/next'
 import { serveStatic } from 'frog/serve-static'
 
 const secrets = {
-  FROG_SECRET: process.env.FROG_SECRET,
-  NEYNAR_API_KEY: process.env.NEYNAR_API_KEY ?? '',
-  POST_URL_BASE: process.env.POST_URL_BASE ?? '',
+  FROG_SECRET: Env.FROG_SECRET,
+  NEYNAR_API_KEY: Env.NEYNAR_API_KEY,
+  POST_URL_BASE: Env.POST_URL_BASE,
 }
 
 const POST_URL_BASE = secrets.POST_URL_BASE;
