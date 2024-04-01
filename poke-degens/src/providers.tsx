@@ -1,8 +1,4 @@
 import * as React from 'react';
-import {
-  AuthKitProvider,
-} from "@farcaster/auth-kit";
-import '@farcaster/auth-kit/styles.css';
 import { ChakraProvider } from '@chakra-ui/react'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
@@ -22,10 +18,6 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-const farcasterConfig = {
-  rpcUrl: "https://mainnet.optimism.io",
-};
-
 const walletConfig = getDefaultConfig({
   appName: 'poke',
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'test',
@@ -40,9 +32,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <WagmiProvider config={walletConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider modalSize="compact">
-            <AuthKitProvider config={farcasterConfig}>
-              {children}
-            </AuthKitProvider>
+            {children}
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>
