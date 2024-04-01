@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from "react";
 
 export const Poke = ({ user }: { user: User | null }) => {
   const [usernameToPoke, setUsernameToPoke] = useState<string>("");
+  const [alreadyPoked, setAlreadyPoked] = useState<boolean>(false);
   const { pokeUser, pokedUserMessage, pokeError } = usePokeViewModel({ user });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,6 +17,7 @@ export const Poke = ({ user }: { user: User | null }) => {
     if (!usernameToPoke) return;
     console.log('poking', usernameToPoke)
     pokeUser(usernameToPoke);
+    setAlreadyPoked(true);
   }
 
   return (
@@ -26,7 +28,7 @@ export const Poke = ({ user }: { user: User | null }) => {
         {pokedUserMessage && <Text>{pokedUserMessage}</Text>}
         <Input placeholder='Farcaster profile' onChange={onChange} value={usernameToPoke} />
         <Button
-          isDisabled={!usernameToPoke}
+          isDisabled={!usernameToPoke || alreadyPoked}
           onClick={onPoke}
         >
           poke

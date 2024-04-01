@@ -62,7 +62,7 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <Button action="/poke-back">poke back</Button>,
+      <Button action="/poke-back">Poke Back</Button>,
       // <Button action="/poke-someone-else">poke others</Button>,
       <Button.Redirect location="https://pokedegens.xyz">Poke others</Button.Redirect>,
       <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
