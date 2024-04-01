@@ -9,23 +9,26 @@ import { Env } from "@/utils/envSetup";
  * body: {
  *  usernameToPoke: string,
  *  one of the following must be provided:
+ *    verifiedAddressOfPoker: string,
  *    custodyAddressOfPoker: string,
- *    usernameOfPoker: string
  * }
  */
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== "POST") throw new Error("Invalid method");
 
-    const { usernameToPoke, custodyAddressOfPoker, usernameOfPoker } = req.body;
+    const { usernameToPoke, custodyAddressOfPoker, verifiedAddressOfPoker } =
+      req.body;
     if (!usernameToPoke || !isString(usernameToPoke))
       throw new Error("usernameToPoke is required");
 
     if (
       (!custodyAddressOfPoker || !isString(custodyAddressOfPoker)) &&
-      (!usernameOfPoker || !isString(usernameOfPoker))
+      (!verifiedAddressOfPoker || !isString(verifiedAddressOfPoker))
     ) {
-      throw new Error("custody address or username of poker is required");
+      throw new Error(
+        "custody address or verifiedAddressOfPoker of poker is required"
+      );
     }
 
     let userToPoke = null;
@@ -38,14 +41,22 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     let fromUsername = null;
-    if (usernameOfPoker) {
-      fromUsername = usernameOfPoker;
+    let address = null;
+    if (verifiedAddressOfPoker) {
+      console.log("verifiedAddressOfPoker", verifiedAddressOfPoker);
+      const result = await neynarClient.fetchBulkUsersByEthereumAddress([
+        verifiedAddressOfPoker,
+      ]);
+      const user = result[verifiedAddressOfPoker.toLowerCase()][0];
+      fromUsername = user.username;
+      address = verifiedAddressOfPoker;
     } else if (custodyAddressOfPoker) {
       const result = await neynarClient.lookupUserByCustodyAddress(
         custodyAddressOfPoker
       );
       const user = result.user;
       fromUsername = user.username;
+      address = custodyAddressOfPoker;
     }
 
     /** publish poke cast on warpcast */
@@ -60,11 +71,11 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     /** register poke on leaderboard */
     await stackClient.track(StackEvent.user_poke, {
       points: 10,
-      account: custodyAddressOfPoker,
+      account: address,
     });
 
     res.status(200).json({
-      message: `${fromUsername} poked ${usernameToPoke}!`,
+      message: `${fromUsername} poked ${usernameToPoke}! Points added to ${address}`,
     });
   } catch (err) {
     console.error(err);

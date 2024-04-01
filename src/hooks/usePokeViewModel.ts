@@ -17,8 +17,7 @@ const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
     if (!user) {
       return;
     }
-    /** takes their custody address */
-    const userCustodyAddress = user.custody_address;
+
     // send poke user request
     (async () => {
       try {
@@ -29,7 +28,9 @@ const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
           },
           body: JSON.stringify({
             usernameToPoke: username,
-            custodyAddressOfPoker: userCustodyAddress,
+            /** takes their verified ethereum address or custody address */
+            verifiedAddressOfPoker: user.verified_addresses.eth_addresses[0],
+            custodyAddressOfPoker: user.custody_address,
           }),
         });
         if (res.status === 404) {

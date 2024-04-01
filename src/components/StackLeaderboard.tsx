@@ -26,12 +26,12 @@ const LeaderboardRow = ({ idx, row }: {
   idx: number
 }) => {
 
-  const result = useEnsName({
+  const { data: ensName } = useEnsName({
     address: parseAddress(row.address),
     chainId: mainnet.id
   })
 
-  console.log('result', result)
+  console.log('result', ensName)
   return (
     <HStack justify='space-between' width={'100%'}>
       <HStack>
@@ -39,7 +39,7 @@ const LeaderboardRow = ({ idx, row }: {
           {idx + 1}
         </Text>
         <Text>
-          {result.data || row.address}
+          {ensName || row.address}
         </Text>
       </HStack>
       <Text>
