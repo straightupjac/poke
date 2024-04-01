@@ -33,7 +33,7 @@ const LeaderboardRow = ({ idx, row }: {
 
   console.log('result', result)
   return (
-    <HStack justify='space-between'>
+    <HStack justify='space-between' width={'100%'}>
       <HStack>
         <Text>
           {idx + 1}
