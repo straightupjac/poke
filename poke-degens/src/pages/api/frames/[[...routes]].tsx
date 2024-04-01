@@ -226,5 +226,7 @@ app.frame('/send-poke', async (c) => {
   })
 })
 
+devtools(app, { serveStatic })
+
 export const handler = handle(app)
 export default handler
