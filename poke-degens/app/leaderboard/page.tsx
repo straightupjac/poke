@@ -9,8 +9,8 @@ export default async function Leaderboard() {
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <Container py={5} px={8} width='100%'>
-        <Navigation />
+      <Navigation />
+      <Container width='100%'>
         <VStack gap={2} py={4} width='100%'>
           <Text fontSize='2xl'>Leaderboard</Text>
           <StackLeaderboard leaderboard={data.leaderboard} />

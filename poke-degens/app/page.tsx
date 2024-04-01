@@ -9,9 +9,9 @@ export default function Home() {
   const farcasterUser = useGetFarcasterUserByAddress();
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center">
       <Navigation />
-      <VStack spacing={5} py={10}>
+      <VStack spacing={5} py={10} width="100%">
         <Text fontSize="2xl">Poke your degen friends 👉</Text>
         <FarcasterUser user={farcasterUser} />
         <Poke user={farcasterUser} />
