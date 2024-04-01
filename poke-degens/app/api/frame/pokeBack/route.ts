@@ -65,12 +65,12 @@ export const POST = async (req: Request, res: NextApiResponse) => {
       points: 10,
       account: address,
     });
-    Response.json({
+    return Response.json({
       message: `${fromUsername} poked ${usernameToPoke} back! Points added to ${address}`,
       success: true,
     });
   } catch (err) {
     console.error(err);
-    Response.json({ err }, { status: 403 });
+    return Response.json({ err }, { status: 403 });
   }
 };

@@ -14,7 +14,7 @@ const secrets = {
 }
 
 const POST_URL_BASE = secrets.POST_URL_BASE;
-const _devMode = process.env.MODE === 'development'
+const _devMode = process.env.NODE_ENV === 'development'
 
 
 const app = new Frog({
@@ -63,7 +63,7 @@ app.frame('/', (c) => {
     intents: [
       <Button action="/poke-back">poke back</Button>,
       // <Button action="/poke-someone-else">poke others</Button>,
-      <Button.Redirect location="https://pokedegens.xyz/poke">Poke others</Button.Redirect>,
+      <Button.Redirect location="https://pokedegens.xyz">Poke others</Button.Redirect>,
       <Button.Redirect location="https://pokedegens.xyz/leaderboard">Leader Board</Button.Redirect>,
     ],
   })
