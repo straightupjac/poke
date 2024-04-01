@@ -119,13 +119,14 @@ app.frame('/poke-back', async (c) => {
               whiteSpace: 'pre-wrap',
             }}
           >
-            We had some trouble 😢 Poke back on pokedegens.xyz 🫵
+            We had some trouble 😢 <br />
+            Poke back later 🫵
           </div>
         </div>
       ),
       intents: [
         <Button action='/'>go back</Button>,
-        <Button.Redirect location="https://pokedegens.xyz">poke</Button.Redirect>,
+        <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
         <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
       ],
     })
