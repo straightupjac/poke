@@ -1,5 +1,5 @@
 'use client'
-import { Button, Stack, Text } from "@chakra-ui/react";
+import { Button, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -8,26 +8,28 @@ export default function Navigation() {
   return (
     <Stack direction={['column', 'column', 'row']}
       spacing={4}
-      justify={['start', 'start', 'center']}
+      justify={['start', 'start', 'space-between']}
       width='100%'
       align='center'
       gap={4}
-      pt={4}>
-      <Link
-        href="/"
-      >
-        <Button variant='ghost'>
-          home
-        </Button>
-      </Link>
-      <Link
-        href="/leaderboard"
-        rel="noopener noreferrer"
-      > <Button variant='ghost'>
-          leaderboard
-        </Button>
-      </Link>
-      <Text p={2}> by bob and straightupjac</Text>
+      background={'purple.900'}
+      py={4}
+      px={16}
+    >
+      <HStack>
+        <Link
+          href="/"
+        >
+          <IconButton variant='ghost' color='white' icon={<Text> 👉</Text>} aria-label="home" size={'32'} />
+        </Link>
+        <Link
+          href="/leaderboard"
+          rel="noopener noreferrer"
+        > <Button variant='ghost' color='white'>
+            leaderboard
+          </Button>
+        </Link>
+      </HStack>
       <ConnectButton showBalance={false} />
     </Stack>
   )

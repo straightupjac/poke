@@ -1,5 +1,5 @@
 'use client'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultConfig,
@@ -17,6 +17,7 @@ import {
   QueryClientProvider,
   QueryClient,
 } from "@tanstack/react-query";
+import { theme } from '@/styles/theme';
 
 const walletConfig = getDefaultConfig({
   appName: 'poke',
@@ -26,9 +27,11 @@ const walletConfig = getDefaultConfig({
 });
 const queryClient = new QueryClient();
 
+const customTheme = extendTheme(theme)
+
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={customTheme}>
       <WagmiProvider config={walletConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider modalSize="compact">
