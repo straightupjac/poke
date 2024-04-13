@@ -16,12 +16,21 @@ import { FRAME_URL } from "@/utils/crypto";
  */
 export const POST = async (req: Request) => {
   try {
+    console.log("poking user back");
     const reqBody = await req.json();
-    const { usernameToPoke, custodyAddressOfPoker, verifiedAddressOfPoker } =
-      reqBody;
+    const {
+      usernameToPoke,
+      pokeHash,
+      custodyAddressOfPoker,
+      verifiedAddressOfPoker,
+    } = reqBody;
 
     if (!usernameToPoke || !isString(usernameToPoke))
       throw new Error("usernameToPoke is required");
+
+    if (!pokeHash || !isString(pokeHash)) {
+      throw new Error("pokeHash is required");
+    }
 
     if (
       (!custodyAddressOfPoker || !isString(custodyAddressOfPoker)) &&
@@ -60,10 +69,18 @@ export const POST = async (req: Request) => {
       address = custodyAddressOfPoker;
     }
 
+    console.log(pokeHash, `https://warpcast.com/pokedegen/${pokeHash}`);
+    const getLastPokeChainCast =
+      await neynarClient.lookUpCastByHashOrWarpcastUrl(
+        `https://warpcast.com/pokedegen/${pokeHash}`,
+        "url"
+      );
+    const castToReplyTo = getLastPokeChainCast.cast.hash;
+
     /** publish poke cast on warpcast */
     const cast = await neynarClient.publishCast(
       Env.NEYNAR_SIGNER_UUID,
-      `@${fromUsername} poked @${usernameToPoke}`,
+      `@${fromUsername} poked @${usernameToPoke} back!`,
       {
         embeds: [
           {
@@ -71,17 +88,18 @@ export const POST = async (req: Request) => {
           },
         ],
         channelId: POKE_CHANNEL_ID,
+        replyTo: castToReplyTo,
       }
     );
 
     /** register poke on leaderboard */
-    await stackClient.track(StackEvent.user_poke, {
+    await stackClient.track(StackEvent.user_poke_back, {
       points: 10,
       account: address,
     });
 
     return Response.json({
-      message: `${fromUsername} poked ${usernameToPoke}! Points added to ${address}`,
+      message: `${fromUsername} poked ${usernameToPoke} back! Points added to ${address}`,
       cast,
     });
   } catch (err) {

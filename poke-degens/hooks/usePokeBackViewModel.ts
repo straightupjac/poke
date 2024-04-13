@@ -6,14 +6,16 @@ type UsePokeViewModelProps = {
 };
 export type PokeViewModel = {
   pokeError: string | null;
-  pokeUser: (username: string) => void;
+  pokeUserBack: (username: string, pokeHash: string) => void;
   pokedUserMessage: string | null;
 };
 
-const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
+const usePokeBackViewModel = ({
+  user,
+}: UsePokeViewModelProps): PokeViewModel => {
   const [pokeError, setPokeError] = useState<string | null>(null);
   const [pokedUserMessage, setPokedUserMessage] = useState<string | null>(null);
-  const pokeUser = (username: string) => {
+  const pokeUserBack = (username: string, pokeHash: string) => {
     if (!user) {
       return;
     }
@@ -21,13 +23,14 @@ const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
     // send poke user request
     (async () => {
       try {
-        const res = await fetch("/api/pokeUser", {
+        const res = await fetch("/api/pokeUserBack", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             usernameToPoke: username,
+            pokeHash,
             /** takes their verified ethereum address or custody address */
             verifiedAddressOfPoker: user.verified_addresses.eth_addresses[0],
             custodyAddressOfPoker: user.custody_address,
@@ -39,7 +42,7 @@ const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
           return;
         }
         setPokeError(null);
-        setPokedUserMessage(`${user.username} poked ${username}!`);
+        setPokedUserMessage(`${user.username} poked ${username} back!`);
         console.log("pokeUser", res);
       } catch (err) {
         console.error(err);
@@ -48,10 +51,10 @@ const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
   };
 
   return {
-    pokeUser,
+    pokeUserBack,
     pokeError,
     pokedUserMessage,
   };
 };
 
-export default usePokeViewModel;
+export default usePokeBackViewModel;
