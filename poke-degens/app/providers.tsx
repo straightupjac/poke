@@ -2,8 +2,8 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-  darkTheme,
   getDefaultConfig,
+  midnightTheme,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
@@ -34,7 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <WagmiProvider config={walletConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider modalSize="compact"
-            theme={darkTheme({
+            theme={midnightTheme({
               accentColor: "white",
               accentColorForeground: "#8A63D2",
               borderRadius: "large",
