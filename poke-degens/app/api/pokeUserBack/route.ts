@@ -69,13 +69,31 @@ export const POST = async (req: Request) => {
       address = custodyAddressOfPoker;
     }
 
-    console.log(pokeHash, `https://warpcast.com/pokedegen/${pokeHash}`);
-    const getLastPokeChainCast =
-      await neynarClient.lookUpCastByHashOrWarpcastUrl(
-        `https://warpcast.com/pokedegen/${pokeHash}`,
-        "url"
+    const lastPokeChainCast = await neynarClient.lookUpCastByHashOrWarpcastUrl(
+      `https://warpcast.com/pokedegen/${pokeHash}`,
+      "url"
+    );
+    if (lastPokeChainCast.cast.replies.count > 0) {
+      const getCastThread = await neynarClient.fetchAllCastsInThread(
+        lastPokeChainCast.cast.hash
       );
-    const castToReplyTo = getLastPokeChainCast.cast.hash;
+      // make sure no one has poked back yet
+      const alreadyPokedBack = getCastThread.result.casts.find((cast) => {
+        return cast.text
+          .trim()
+          .includes(`@${fromUsername} poked @${usernameToPoke} back`);
+      });
+      if (alreadyPokedBack) {
+        return Response.json(
+          {
+            message: `${fromUsername} already poked ${usernameToPoke} back! You can't poke back until they poke you.`,
+            cast: alreadyPokedBack,
+          },
+          { status: 429 }
+        );
+      }
+    }
+    const castToReplyTo = lastPokeChainCast.cast.hash;
 
     /** publish poke cast on warpcast */
     const cast = await neynarClient.publishCast(

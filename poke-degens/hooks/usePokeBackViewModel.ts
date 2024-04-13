@@ -41,6 +41,13 @@ const usePokeBackViewModel = ({
           setPokedUserMessage(null);
           return;
         }
+        if (res.status === 429) {
+          setPokeError(null);
+          setPokedUserMessage(
+            `You already poked ${username} back. Wait for ${username} to poke you again.`
+          );
+          return;
+        }
         setPokeError(null);
         setPokedUserMessage(`${user.username} poked ${username} back!`);
         console.log("pokeUser", res);
