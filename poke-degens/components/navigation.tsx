@@ -1,5 +1,5 @@
 'use client'
-import { Button, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
@@ -12,12 +12,16 @@ export default function Navigation() {
       justify={['start', 'start', 'space-between']}
       width='100%'
       align='center'
+      alignItems='start'
       gap={4}
       background={'purple.800'}
       py={4}
-      px={16}
+      px={[8, 8, 16]}
     >
-      <HStack>
+      <Stack direction={['column', 'column', 'row']}
+        justify='start'
+        width='100%'
+      >
         <Link
           href="/"
         >
@@ -46,8 +50,10 @@ export default function Navigation() {
             /poke channel
           </Button>
         </Link>
-      </HStack >
-      <ConnectButton showBalance={false} />
+      </Stack>
+      <Flex width='100%' justify={['start', 'start', 'end']}>
+        <ConnectButton showBalance={false} />
+      </Flex>
     </Stack >
   )
 }

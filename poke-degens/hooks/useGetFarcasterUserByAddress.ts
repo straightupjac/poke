@@ -8,7 +8,9 @@ export const useGetFarcasterUserByAddress = () => {
   const [farcasterUser, setFarcasterUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (!account.address) return;
+    if (!account.address || !account.isConnected) {
+      setFarcasterUser(null);
+    }
     const address = account.address as string;
     if (farcasterUser?.verifications.includes(address)) {
       console.log("user already fetched", farcasterUser);
