@@ -2,15 +2,14 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
+  darkTheme,
   getDefaultConfig,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import {
-  mainnet,
   polygon,
   optimism,
-  arbitrum,
   base,
 } from 'wagmi/chains';
 import {
@@ -34,7 +33,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ChakraProvider theme={customTheme}>
       <WagmiProvider config={walletConfig}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider modalSize="compact">
+          <RainbowKitProvider modalSize="compact"
+            theme={darkTheme({
+              accentColor: "white",
+              accentColorForeground: "#8A63D2",
+              borderRadius: "large",
+              fontStack: "system",
+              overlayBlur: "small",
+            })}>
             {children}
           </RainbowKitProvider>
         </QueryClientProvider>
