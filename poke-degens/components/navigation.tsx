@@ -2,6 +2,7 @@
 import { Button, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Image from "next/image";
 
 export default function Navigation() {
 
@@ -29,8 +30,24 @@ export default function Navigation() {
             leaderboard
           </Button>
         </Link>
-      </HStack>
+        <Link
+          href="https://warpcast.com/~/channel/poke"
+          rel="noopener noreferrer"
+          target="_blank"
+        > <Button colorScheme='purple' variant='solid' color='white' leftIcon={
+          <>
+            <Image
+              src="/farcaster.png"
+              width={30}
+              height={30}
+              alt="farcaster"
+            /></>
+        }>
+            /poke channel
+          </Button>
+        </Link>
+      </HStack >
       <ConnectButton showBalance={false} />
-    </Stack>
+    </Stack >
   )
 }

@@ -26,7 +26,7 @@ export const Poke = ({ user }: { user: User | null }) => {
         <Text variant="h1">Poke</Text>
         {pokeError && <Text color='red'>{pokeError}</Text>}
         {pokedUserMessage && <Text>{pokedUserMessage}</Text>}
-        <Input placeholder='Farcaster profile' onChange={onChange} value={usernameToPoke} />
+        <Input placeholder='Warpcast handle' onChange={onChange} value={usernameToPoke} />
         <Button
           isDisabled={!usernameToPoke || alreadyPoked}
           onClick={onPoke}
