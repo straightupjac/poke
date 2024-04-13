@@ -12,7 +12,7 @@ export default function Navigation() {
       width='100%'
       align='center'
       gap={4}
-      background={'purple.900'}
+      background={'purple.800'}
       py={4}
       px={16}
     >
@@ -20,12 +20,12 @@ export default function Navigation() {
         <Link
           href="/"
         >
-          <IconButton variant='ghost' color='white' icon={<Text> 👉</Text>} aria-label="home" size={'32'} />
+          <IconButton colorScheme='purple' variant='solid' color='white' icon={<Text fontSize={'40'} px={5}> 👉</Text>} aria-label="home" />
         </Link>
         <Link
           href="/leaderboard"
           rel="noopener noreferrer"
-        > <Button variant='ghost' color='white'>
+        > <Button colorScheme='purple' variant='solid' color='white'>
             leaderboard
           </Button>
         </Link>
