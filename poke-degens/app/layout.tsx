@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
-import { Meta } from '@/components/meta'
 import { getFrameMetadata } from 'frog/next'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,7 +13,14 @@ export async function generateMetadata(): Promise<Metadata> {
   )
   return {
     title: 'Poke Degen',
-    description: 'poke your degen frens',
+    description: 'poke your frens.',
+    icons: {
+      icon: [
+        { url: '/favicon.ico' },
+      ],
+    },
+    keywords: ['poke', 'degen', 'frame', 'frens', 'farcaster', 'warpcast'],
+    referrer: 'origin-when-cross-origin',
     other: frameTags,
   }
 }
