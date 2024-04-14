@@ -15,10 +15,7 @@ const secrets = {
   NEYNAR_API_KEY: Env.NEYNAR_API_KEY,
   POST_URL_BASE: Env.POST_URL_BASE,
 }
-
-const POST_URL_BASE = secrets.POST_URL_BASE;
 const _devMode = process.env.NODE_ENV === 'development'
-
 
 const app = new Frog({
   assetsPath: '/',
