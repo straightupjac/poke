@@ -26,6 +26,7 @@ export default async function pokeBack({
   try {
     if (!fid) throw new Error("fid is required");
     if (!castId) throw new Error("castId is required");
+
     const result = await neynarClient.lookUpCastByHashOrWarpcastUrl(
       castId.hash,
       "hash"
@@ -94,7 +95,7 @@ export default async function pokeBack({
       }
     );
     /** register poke on leaderboard */
-    await stackClient.track(StackEvent.user_poke, {
+    await stackClient.track(StackEvent.user_poke_back, {
       points: 10,
       account: address,
     });

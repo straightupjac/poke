@@ -2,6 +2,7 @@
 /** @jsxImportSource frog/jsx */
 
 import { Env } from '@/utils/envSetup'
+import poke, { PokeStatus } from '@/utils/frames/poke'
 import pokeBack, { PokeBackStatus } from '@/utils/frames/pokeBack'
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'
@@ -359,8 +360,6 @@ app.frame('/poke-someone-else', (c) => {
     intents: [
       <TextInput placeholder="Enter username to poke" />,
       <Button action='/send-poke'>poke</Button>,
-      // <Button action='/'>go back</Button>,
-      // <Button.Redirect location="https://pokedegens.xyz">poke</Button.Redirect>,
       <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
   })
@@ -371,58 +370,129 @@ app.frame('/send-poke', async (c) => {
   if (!_devMode && !verified) console.log('send-poke: Frame verification failed')
   const { fid, castId, inputText: usernameToPoke } = frameData ?? {}
 
-  const result = await fetch(`${POST_URL_BASE}/pokeOther`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      castId,
-      fid,
-      usernameToPoke,
-    }),
-  })
-  const data = await result.json();
-  console.log('send-poke', data);
+  const { status } = await poke({ fid, castId, usernameToPoke });
+
+  switch (status) {
+    case PokeStatus.Success: {
+      return c.res({
+        image: (
+          <div
+            style={{
+              alignItems: 'center',
+              background: '#8A63D2',
+              backgroundSize: '100% 100%',
+              display: 'flex',
+              flexDirection: 'column',
+              flexWrap: 'nowrap',
+              height: '100%',
+              justifyContent: 'center',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                color: 'white',
+                fontSize: 60,
+                fontStyle: 'normal',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.4,
+                marginTop: 30,
+                padding: '0 120px',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              You poked {usernameToPoke}! 🫵
+            </div>
+          </div>
+        ),
+        intents: [
+          <Button action='/'>go back</Button>,
+          <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+        ],
+      })
+    }
+    case PokeStatus.UserToPokeNotFound: {
+      return c.res({
+        image: (
+          <div
+            style={{
+              alignItems: 'center',
+              background: '#8A63D2',
+              backgroundSize: '100% 100%',
+              display: 'flex',
+              flexDirection: 'column',
+              flexWrap: 'nowrap',
+              height: '100%',
+              justifyContent: 'center',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                color: 'white',
+                fontSize: 60,
+                fontStyle: 'normal',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.4,
+                marginTop: 30,
+                padding: '0 120px',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {usernameToPoke} does not exist<br />
+            </div>
+          </div>
+        ),
+        intents: [
+          <Button.Redirect location="https://pokedegens.xyz">try again</Button.Redirect>,
+          <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+        ],
+      })
+    }
+    case PokeStatus.Error: {
+      return c.res({
+        image: (
+          <div
+            style={{
+              alignItems: 'center',
+              background: '#8A63D2',
+              backgroundSize: '100% 100%',
+              display: 'flex',
+              flexDirection: 'column',
+              flexWrap: 'nowrap',
+              height: '100%',
+              justifyContent: 'center',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                color: 'white',
+                fontSize: 60,
+                fontStyle: 'normal',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.4,
+                marginTop: 30,
+                padding: '0 120px',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              We had some trouble poking {usernameToPoke} 😢 <br />
+            </div>
+          </div>
+        ),
+        intents: [
+          <Button.Redirect location="https://pokedegens.xyz">try again</Button.Redirect>,
+          <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+        ],
+      })
+    }
+  }
 
 
-  return c.res({
-    image: (
-      <div
-        style={{
-          alignItems: 'center',
-          background: '#8A63D2',
-          backgroundSize: '100% 100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
-          height: '100%',
-          justifyContent: 'center',
-          textAlign: 'center',
-          width: '100%',
-        }}
-      >
-        <div
-          style={{
-            color: 'white',
-            fontSize: 60,
-            fontStyle: 'normal',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          You poked! 🫵
-        </div>
-      </div>
-    ),
-    intents: [
-      <Button action='/'>go back</Button>,
-      <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
-    ],
-  })
 })
 
 devtools(app, { serveStatic })
