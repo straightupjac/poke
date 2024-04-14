@@ -66,7 +66,6 @@ app.frame('/', (c) => {
     intents: [
       <Button action="/poke-back">poke back</Button>,
       <Button action="/poke-someone-else">poke others</Button>,
-      // <Button.Redirect location="https://pokedegens.xyz">Poke others</Button.Redirect>,
       <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
   })
@@ -115,7 +114,7 @@ app.frame('/poke-back', async (c) => {
           ),
           intents: [
             <Button action='/'>go back</Button>,
-            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+            <Button action="/poke-someone-else">poke others</Button>,
             <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
           ],
         })
@@ -155,7 +154,7 @@ app.frame('/poke-back', async (c) => {
           ),
           intents: [
             <Button action='/'>go back</Button>,
-            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+            <Button action="/poke-someone-else">poke others</Button>,
             <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
           ],
         })
@@ -195,7 +194,7 @@ app.frame('/poke-back', async (c) => {
           ),
           intents: [
             <Button action='/'>go back</Button>,
-            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+            <Button action="/poke-someone-else">poke others</Button>,
             <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
           ],
         })
@@ -235,7 +234,7 @@ app.frame('/poke-back', async (c) => {
           ),
           intents: [
             <Button action='/'>go back</Button>,
-            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+            <Button action="/poke-someone-else">poke others</Button>,
             <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
           ],
         })
@@ -279,7 +278,7 @@ app.frame('/poke-back', async (c) => {
       ),
       intents: [
         <Button action='/'>go back</Button>,
-        <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+        <Button action="/poke-someone-else">poke others</Button>,
         <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
       ],
     })
@@ -371,7 +370,7 @@ app.frame('/send-poke', async (c) => {
         ),
         intents: [
           <Button action='/'>go back</Button>,
-          <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+          <Button action="/poke-someone-else">poke others</Button>,
           <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
         ],
       })
