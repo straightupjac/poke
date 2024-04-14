@@ -3,6 +3,9 @@ import { neynarClient } from "@/utils/neynar/neynar";
 
 export const GET = async (req: Request) => {
   try {
+    if (process.env.NODE_ENV !== "development") {
+      return Response.json({ message: "Not allowed" }, { status: 403 });
+    }
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
     if (!username || !isString(username))
