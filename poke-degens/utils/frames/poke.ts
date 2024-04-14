@@ -3,9 +3,11 @@ import { neynarClient, POKE_CHANNEL_ID } from "../neynar/neynar";
 import { Env } from "../envSetup";
 import { FRAME_URL } from "../crypto";
 import { stackClient, StackEvent } from "../stacks";
+import userPokeQuota, { UserPokeQuotaStatus } from "./userPokeQuote";
 
 export enum PokeStatus {
   Success = "success",
+  OutOfDailyPokeQuota = "out-of-poke-quota",
   UserToPokeNotFound = "user-to-poke-not-found",
   Error = "error",
 }
@@ -30,6 +32,20 @@ export default async function poke({
     if (!castId) throw new Error("castId is required");
     if (!usernameToPoke || !isString(usernameToPoke))
       throw new Error("usernameToPoke is required");
+
+    const pokeQuota = await userPokeQuota({ fid });
+    if (pokeQuota.status === UserPokeQuotaStatus.UserOutOfPokes) {
+      return {
+        status: PokeStatus.OutOfDailyPokeQuota,
+        message: "You have reached your daily poke quota",
+      };
+    }
+    if (pokeQuota.status === UserPokeQuotaStatus.Error) {
+      return {
+        status: PokeStatus.Error,
+        message: "Error fetching user poke quota",
+      };
+    }
 
     const pokeUser = (await neynarClient.fetchBulkUsers([fid])).users[0];
     const fromUsername = pokeUser.username;
@@ -57,7 +73,7 @@ export default async function poke({
     }
 
     /** publish poke cast on warpcast */
-    const cast = await neynarClient.publishCast(
+    await neynarClient.publishCast(
       Env.NEYNAR_SIGNER_UUID,
       `@${fromUsername} poked @${usernameToPoke}`,
       {

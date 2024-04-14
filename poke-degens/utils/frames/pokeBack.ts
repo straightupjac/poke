@@ -2,10 +2,13 @@ import { FRAME_URL } from "../crypto";
 import { Env } from "../envSetup";
 import { neynarClient, POKE_CHANNEL_ID } from "../neynar/neynar";
 import { stackClient, StackEvent } from "../stacks";
+import { PokeStatus } from "./poke";
+import userPokeQuota, { UserPokeQuotaStatus } from "./userPokeQuote";
 
 export enum PokeBackStatus {
   Success = "success",
   AlreadyPoked = "already-poked",
+  OutOfDailyPokeQuota = "out-of-daily-poke-quota",
   UserIsNotPoked = "user-is-not-poked",
   Error = "error",
 }
@@ -26,6 +29,19 @@ export default async function pokeBack({
   try {
     if (!fid) throw new Error("fid is required");
     if (!castId) throw new Error("castId is required");
+    const pokeQuota = await userPokeQuota({ fid });
+    if (pokeQuota.status === UserPokeQuotaStatus.UserOutOfPokes) {
+      return {
+        status: PokeBackStatus.OutOfDailyPokeQuota,
+        message: "You have reached your daily poke quota",
+      };
+    }
+    if (pokeQuota.status === UserPokeQuotaStatus.Error) {
+      return {
+        status: PokeBackStatus.Error,
+        message: "Error fetching user poke quota",
+      };
+    }
 
     const result = await neynarClient.lookUpCastByHashOrWarpcastUrl(
       castId.hash,

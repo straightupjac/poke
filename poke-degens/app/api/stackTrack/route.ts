@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { STACK_EVENTS, stackClient } from "../../../utils/stacks";
 
 export const POST = async (req: Request) => {

@@ -9,3 +9,5 @@ export const abridgeAddress = (address: string): string => {
 };
 
 export const FRAME_URL = "https://www.pokedegens.xyz/api/frames";
+
+export const POKE_BOT_FID = 430968;

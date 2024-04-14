@@ -119,6 +119,46 @@ app.frame('/poke-back', async (c) => {
           ],
         })
       }
+      case PokeBackStatus.OutOfDailyPokeQuota: {
+        return c.res({
+          image: (
+            <div
+              style={{
+                alignItems: 'center',
+                background: '#8A63D2',
+                backgroundSize: '100% 100%',
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'nowrap',
+                height: '100%',
+                justifyContent: 'center',
+                textAlign: 'center',
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 60,
+                  fontStyle: 'normal',
+                  letterSpacing: '-0.025em',
+                  lineHeight: 1.4,
+                  marginTop: 30,
+                  padding: '0 120px',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                You have reached your daily poke quota 🫵
+              </div>
+            </div>
+          ),
+          intents: [
+            <Button action='/'>go back</Button>,
+            <Button action="/poke-someone-else">poke others</Button>,
+            <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+          ],
+        })
+      }
       case PokeBackStatus.Error: {
         return c.res({
           image: (
@@ -365,6 +405,46 @@ app.frame('/send-poke', async (c) => {
               }}
             >
               You poked! 🫵
+            </div>
+          </div>
+        ),
+        intents: [
+          <Button action='/'>go back</Button>,
+          <Button action="/poke-someone-else">poke others</Button>,
+          <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+        ],
+      })
+    }
+    case PokeStatus.OutOfDailyPokeQuota: {
+      return c.res({
+        image: (
+          <div
+            style={{
+              alignItems: 'center',
+              background: '#8A63D2',
+              backgroundSize: '100% 100%',
+              display: 'flex',
+              flexDirection: 'column',
+              flexWrap: 'nowrap',
+              height: '100%',
+              justifyContent: 'center',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                color: 'white',
+                fontSize: 60,
+                fontStyle: 'normal',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.4,
+                marginTop: 30,
+                padding: '0 120px',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              You have reached your daily poke quota 🫵
             </div>
           </div>
         ),
