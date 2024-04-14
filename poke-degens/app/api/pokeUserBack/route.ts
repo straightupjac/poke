@@ -73,6 +73,31 @@ export const POST = async (req: Request) => {
       `https://warpcast.com/pokedegen/${pokeHash}`,
       "url"
     );
+
+    /** validate the poke is for these users */
+    const parentCast = lastPokeChainCast.cast;
+    const mentionedProfiles = parentCast.mentioned_profiles;
+    const usernamePoked = mentionedProfiles[1].username;
+    if (fromUsername !== usernamePoked) {
+      return Response.json(
+        {
+          message: "You are not the user who was poked",
+          success: false,
+        },
+        { status: 403 }
+      );
+    }
+    const originalPoker = mentionedProfiles[0].username;
+    if (originalPoker !== usernameToPoke) {
+      return Response.json(
+        {
+          message: "You can only poke back the user who poked you",
+          success: false,
+        },
+        { status: 403 }
+      );
+    }
+
     if (lastPokeChainCast.cast.replies.count > 0) {
       const getCastThread = await neynarClient.fetchAllCastsInThread(
         lastPokeChainCast.cast.hash

@@ -52,10 +52,36 @@ export const POST = async (req: Request) => {
       address = pokeUser.custody_address;
     }
 
+    const pokeChainCast = await neynarClient.lookUpCastByHashOrWarpcastUrl(
+      castId.hash,
+      "hash"
+    );
+
+    if (pokeChainCast.cast.replies.count > 0) {
+      const getCastThread = await neynarClient.fetchAllCastsInThread(
+        pokeChainCast.cast.hash
+      );
+      // make sure no one has poked back yet
+      const alreadyPokedBack = getCastThread.result.casts.find((cast) => {
+        return cast.text
+          .trim()
+          .includes(`@${fromUsername} poked @${usernameToPoke} back`);
+      });
+      if (alreadyPokedBack) {
+        return Response.json(
+          {
+            message: `${fromUsername} already poked ${usernameToPoke} back! You can't poke back until they poke you.`,
+            cast: alreadyPokedBack,
+          },
+          { status: 429 }
+        );
+      }
+    }
+
     /** publish poke cast on warpcast */
     await neynarClient.publishCast(
       Env.NEYNAR_SIGNER_UUID,
-      `@${fromUsername} poked @${usernameToPoke}`,
+      `@${fromUsername} poked @${usernameToPoke} back!`,
       {
         embeds: [
           {
@@ -63,6 +89,7 @@ export const POST = async (req: Request) => {
           },
         ],
         channelId: POKE_CHANNEL_ID,
+        replyTo: castId.hash,
       }
     );
 

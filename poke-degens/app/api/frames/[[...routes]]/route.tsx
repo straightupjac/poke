@@ -1,7 +1,10 @@
 /* eslint-disable react/jsx-key */
 /** @jsxImportSource frog/jsx */
 
+import { FRAME_URL } from '@/utils/crypto'
 import { Env } from '@/utils/envSetup'
+import { neynarClient, POKE_CHANNEL_ID } from '@/utils/neynar/neynar'
+import { stackClient, StackEvent } from '@/utils/stacks'
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'
 import { neynar } from 'frog/hubs'
@@ -76,19 +79,113 @@ app.frame('/poke-back', async (c) => {
     const { fid, castId } = frameData ?? {}
     if (!_devMode && !verified) console.error('poke-back: Frame verification failed')
 
-    const result = await fetch(`${POST_URL_BASE}/pokeBack`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        castId,
-        fid,
-      }),
-    })
-    const data = await result.json();
-    const { success, from, to } = data;
-    console.log('poke-back', success, from, to);
+    if (!fid) throw new Error("fid is required");
+    if (!castId) throw new Error("castId is required");
+    const result = await neynarClient.lookUpCastByHashOrWarpcastUrl(
+      castId.hash,
+      "hash"
+    );
+
+    const { cast } = result;
+    const mentionedProfiles = cast.mentioned_profiles;
+
+    const usernameToPoke = mentionedProfiles[0].username;
+    const usernamePoked = mentionedProfiles[1].username;
+    const pokeUser = (await neynarClient.fetchBulkUsers([fid])).users[0];
+    const fromUsername = pokeUser.username;
+    if (fromUsername !== usernamePoked) {
+      return Response.json(
+        {
+          message: "You can only poke back the user who poked you",
+          success: false,
+        },
+        { status: 403 }
+      );
+    }
+    let address = null;
+    if (pokeUser.verified_addresses.eth_addresses.length) {
+      address = pokeUser.verified_addresses.eth_addresses[0];
+    } else {
+      address = pokeUser.custody_address;
+    }
+
+    const pokeChainCast = await neynarClient.lookUpCastByHashOrWarpcastUrl(
+      castId.hash,
+      "hash"
+    );
+
+    if (pokeChainCast.cast.replies.count > 0) {
+      const getCastThread = await neynarClient.fetchAllCastsInThread(
+        pokeChainCast.cast.hash
+      );
+      // make sure no one has poked back yet
+      const alreadyPokedBack = getCastThread.result.casts.find((cast) => {
+        return cast.text
+          .trim()
+          .includes(`@${fromUsername} poked @${usernameToPoke} back`);
+      });
+      if (alreadyPokedBack) {
+        console.error('poke-back', `${fromUsername} already poked ${usernameToPoke} back! You can't poke back until they poke you.`)
+        return c.res({
+          image: (
+            <div
+              style={{
+                alignItems: 'center',
+                background: '#8A63D2',
+                backgroundSize: '100% 100%',
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'nowrap',
+                height: '100%',
+                justifyContent: 'center',
+                textAlign: 'center',
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 60,
+                  fontStyle: 'normal',
+                  letterSpacing: '-0.025em',
+                  lineHeight: 1.4,
+                  marginTop: 30,
+                  padding: '0 120px',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {fromUsername} already poked {usernameToPoke} back! You can&apos;t poke back until they poke you.
+              </div>
+            </div>
+          ),
+          intents: [
+            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+            <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+          ],
+        })
+      }
+
+      /** publish poke cast on warpcast */
+      await neynarClient.publishCast(
+        Env.NEYNAR_SIGNER_UUID,
+        `@${fromUsername} poked @${usernameToPoke} back!`,
+        {
+          embeds: [
+            {
+              url: FRAME_URL,
+            },
+          ],
+          channelId: POKE_CHANNEL_ID,
+          replyTo: castId.hash,
+        }
+      );
+      /** register poke on leaderboard */
+      await stackClient.track(StackEvent.user_poke, {
+        points: 10,
+        account: address,
+      });
+    }
+
   } catch (e) {
     console.error('poke-back', e)
     return c.res({
@@ -131,7 +228,6 @@ app.frame('/poke-back', async (c) => {
       ],
     })
   }
-
 
   return c.res({
     image: (

@@ -48,9 +48,19 @@ const usePokeBackViewModel = ({
           );
           return;
         }
-        setPokeError(null);
-        setPokedUserMessage(`${user.username} poked ${username} back!`);
-        console.log("pokeUser", res);
+        if (res.status === 403) {
+          setPokeError("You can only poke back the user who poked you");
+          setPokedUserMessage(null);
+          return;
+        }
+        if (res.status === 200) {
+          setPokeError(null);
+          setPokedUserMessage(`${user.username} poked ${username} back!`);
+          console.log("pokeUser", res);
+        }
+        setPokeError("Error poking user back");
+        setPokedUserMessage(null);
+        return;
       } catch (err) {
         console.error(err);
       }
