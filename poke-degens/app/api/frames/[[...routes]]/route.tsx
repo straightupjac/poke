@@ -492,8 +492,6 @@ app.frame('/send-poke', async (c) => {
       })
     }
   }
-
-
 })
 
 devtools(app, { serveStatic })
