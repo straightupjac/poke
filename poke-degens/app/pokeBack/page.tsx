@@ -2,14 +2,15 @@
 import { VStack, Text } from '@chakra-ui/react'
 import { FarcasterUser } from '@/components/FarcasterDisplay'
 import useGetFarcasterUserByAddress from '@/hooks/useGetFarcasterUserByAddress'
-import { useRouter } from 'next/router'
 import { PokeBack } from '@/components/pokeBack'
 import isString from 'lodash/isString'
 import { useSearchParams } from 'next/navigation'
 import Navigation from '@/components/navigation'
+import { Suspense } from 'react'
 
-export default function Home() {
+const PokeBackComponent = () => {
   const farcasterUser = useGetFarcasterUserByAddress();
+
   const queryParams = useSearchParams()
   const username = queryParams.get('username')
   const pokeHash = queryParams.get('pokeHash')
@@ -31,4 +32,10 @@ export default function Home() {
       </VStack>
     </main>
   )
+}
+
+export default function PokeBackPage() {
+  <Suspense fallback={<div>Loading...</div>}>
+    <PokeBackComponent />
+  </Suspense>
 }

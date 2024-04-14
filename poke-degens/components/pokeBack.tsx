@@ -9,7 +9,6 @@ export const PokeBack = ({ user, usernameToPokeBack, pokeHash }: { user: User | 
   const { pokeUserBack, pokedUserMessage, pokeError } = usePokeBackViewModel({ user, });
 
   const onPoke = () => {
-    console.log('poking', usernameToPokeBack, pokeHash)
     pokeUserBack(usernameToPokeBack, pokeHash);
     setAlreadyPoked(true);
   }
