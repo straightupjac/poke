@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-key */
 /** @jsxImportSource frog/jsx */
 
-import { FRAME_URL } from '@/utils/crypto'
 import { Env } from '@/utils/envSetup'
 import pokeBack, { PokeBackStatus } from '@/utils/frames/pokeBack'
-import { neynarClient, POKE_CHANNEL_ID } from '@/utils/neynar/neynar'
-import { stackClient, StackEvent } from '@/utils/stacks'
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'
 import { neynar } from 'frog/hubs'
@@ -80,7 +77,7 @@ app.frame('/poke-back', async (c) => {
     const { fid, castId } = frameData ?? {}
     if (!_devMode && !verified) console.error('poke-back: Frame verification failed')
 
-    const { status, message } = await pokeBack({ fid, castId });
+    const { status } = await pokeBack({ fid, castId });
     switch (status) {
       case PokeBackStatus.Error: {
         return c.res({
@@ -111,7 +108,7 @@ app.frame('/poke-back', async (c) => {
                   whiteSpace: 'pre-wrap',
                 }}
               >
-                We had some trouble poking😢 <br />
+                We had some trouble poking back 😢 <br />
               </div>
             </div>
           ),
