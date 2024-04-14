@@ -1,4 +1,4 @@
-import { POKE_BOT_FID } from "../crypto";
+import { FRAME_URL, POKE_BOT_FID } from "../crypto";
 import { neynarClient } from "../neynar/neynar";
 
 export enum UserPokeQuotaStatus {
@@ -16,7 +16,8 @@ export default async function userPokeQuota({ fid }: { fid: number }) {
     const pokesFromToday = casts.filter(
       (cast) =>
         new Date(cast.timestamp).toDateString() === new Date().toDateString() &&
-        cast.mentionedProfiles[0].fid === fid
+        cast.mentionedProfiles[0].fid === fid &&
+        cast.embeds.find((embed) => embed.url === FRAME_URL)
     );
     if (pokesFromToday.length >= 25) {
       return {
