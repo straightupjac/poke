@@ -359,6 +359,7 @@ app.frame('/poke-someone-else', (c) => {
     ),
     intents: [
       <TextInput placeholder="Enter username to poke" />,
+      <Button action='/'>go back</Button>,
       <Button action='/send-poke'>poke</Button>,
       <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
     ],
