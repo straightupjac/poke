@@ -35,16 +35,16 @@ app.frame('/', (c) => {
     image: (
       <div
         style={{
-          alignItems: 'center',
-          background: 'linear-gradient(to right, #8A63D2, #17101F)',
-          backgroundSize: '100% 100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
-          height: '100%',
-          justifyContent: 'center',
-          textAlign: 'center',
-          width: '100%',
+          alignItems: "center",
+          background: "#8A63D2",
+          backgroundSize: "100% 100%",
+          display: "flex",
+          flexDirection: "column",
+          flexWrap: "nowrap",
+          height: "100%",
+          justifyContent: "center",
+          textAlign: "center",
+          width: "100%",
         }}
       >
         <div
@@ -84,16 +84,16 @@ app.frame('/poke-back', async (c) => {
           image: (
             <div
               style={{
-                alignItems: 'center',
-                background: '#8A63D2',
-                backgroundSize: '100% 100%',
-                display: 'flex',
-                flexDirection: 'column',
-                flexWrap: 'nowrap',
-                height: '100%',
-                justifyContent: 'center',
-                textAlign: 'center',
-                width: '100%',
+                alignItems: "center",
+                background: "#8A63D2",
+                backgroundSize: "100% 100%",
+                display: "flex",
+                flexDirection: "column",
+                flexWrap: "nowrap",
+                height: "100%",
+                justifyContent: "center",
+                textAlign: "center",
+                width: "100%",
               }}
             >
               <div
