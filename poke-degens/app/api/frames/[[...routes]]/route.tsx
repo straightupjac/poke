@@ -80,6 +80,46 @@ app.frame('/poke-back', async (c) => {
 
     const { status } = await pokeBack({ fid, castId });
     switch (status) {
+      case PokeBackStatus.Success: {
+        return c.res({
+          image: (
+            <div
+              style={{
+                alignItems: 'center',
+                background: '#8A63D2',
+                backgroundSize: '100% 100%',
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'nowrap',
+                height: '100%',
+                justifyContent: 'center',
+                textAlign: 'center',
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 60,
+                  fontStyle: 'normal',
+                  letterSpacing: '-0.025em',
+                  lineHeight: 1.4,
+                  marginTop: 30,
+                  padding: '0 120px',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                You poked back! 🫵
+              </div>
+            </div>
+          ),
+          intents: [
+            <Button action='/'>go back</Button>,
+            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
+            <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
+          ],
+        })
+      }
       case PokeBackStatus.Error: {
         return c.res({
           image: (
@@ -150,46 +190,6 @@ app.frame('/poke-back', async (c) => {
                 }}
               >
                 You can only poke back if you&apos;ve been poked🫵
-              </div>
-            </div>
-          ),
-          intents: [
-            <Button action='/'>go back</Button>,
-            <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
-            <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
-          ],
-        })
-      }
-      case PokeBackStatus.Success: {
-        return c.res({
-          image: (
-            <div
-              style={{
-                alignItems: 'center',
-                background: '#8A63D2',
-                backgroundSize: '100% 100%',
-                display: 'flex',
-                flexDirection: 'column',
-                flexWrap: 'nowrap',
-                height: '100%',
-                justifyContent: 'center',
-                textAlign: 'center',
-                width: '100%',
-              }}
-            >
-              <div
-                style={{
-                  color: 'white',
-                  fontSize: 60,
-                  fontStyle: 'normal',
-                  letterSpacing: '-0.025em',
-                  lineHeight: 1.4,
-                  marginTop: 30,
-                  padding: '0 120px',
-                  whiteSpace: 'pre-wrap',
-                }}
-              >
-                You poked back! 🫵
               </div>
             </div>
           ),
@@ -403,12 +403,13 @@ app.frame('/send-poke', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              You poked {usernameToPoke}! 🫵
+              You poked! 🫵
             </div>
           </div>
         ),
         intents: [
           <Button action='/'>go back</Button>,
+          <Button.Redirect location="https://pokedegens.xyz">poke others</Button.Redirect>,
           <Button.Redirect location="https://pokedegens.xyz/leaderboard">leader board</Button.Redirect>,
         ],
       })
@@ -442,7 +443,7 @@ app.frame('/send-poke', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {usernameToPoke} does not exist<br />
+              the user does not exist<br />
             </div>
           </div>
         ),
@@ -481,7 +482,7 @@ app.frame('/send-poke', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              We had some trouble poking {usernameToPoke} 😢 <br />
+              We had some trouble poking 😢 <br />
             </div>
           </div>
         ),
