@@ -4,6 +4,9 @@ import { stackClient, StackEvent } from "@/utils/stacks";
 import { Env } from "@/utils/envSetup";
 import { NextResponse } from "next/server";
 import { FRAME_URL } from "@/utils/crypto";
+import userPokeQuota, {
+  UserPokeQuotaStatus,
+} from "@/utils/frames/userPokeQuote";
 
 /**
  * @param req
@@ -41,6 +44,7 @@ export const POST = async (req: Request) => {
       return NextResponse.json(err, { status: 404 });
     }
 
+    let fromUser = null;
     let fromUsername = null;
     let address = null;
     if (verifiedAddressOfPoker) {
@@ -48,16 +52,35 @@ export const POST = async (req: Request) => {
       const result = await neynarClient.fetchBulkUsersByEthereumAddress([
         verifiedAddressOfPoker,
       ]);
-      const user = result[verifiedAddressOfPoker.toLowerCase()][0];
-      fromUsername = user.username;
+      fromUser = result[verifiedAddressOfPoker.toLowerCase()][0];
+      fromUsername = fromUser.username;
       address = verifiedAddressOfPoker;
     } else if (custodyAddressOfPoker) {
       const result = await neynarClient.lookupUserByCustodyAddress(
         custodyAddressOfPoker
       );
-      const user = result.user;
-      fromUsername = user.username;
+      fromUser = result.user;
+      fromUsername = fromUser.username;
       address = custodyAddressOfPoker;
+    }
+    if (!fromUser) {
+      return NextResponse.json(
+        { message: "User not found", usernameToPoke },
+        { status: 404 }
+      );
+    }
+
+    const pokeQuota = await userPokeQuota({ fid: fromUser?.fid });
+    if (pokeQuota.status === UserPokeQuotaStatus.UserOutOfPokes) {
+      return Response.json(
+        {
+          message: "You have reached your daily poke quota",
+        },
+        { status: 429 }
+      );
+    }
+    if (pokeQuota.status === UserPokeQuotaStatus.Error) {
+      throw new Error("Error fetching user poke quota");
     }
 
     /** publish poke cast on warpcast */

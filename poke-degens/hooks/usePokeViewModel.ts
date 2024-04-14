@@ -33,14 +33,24 @@ const usePokeViewModel = ({ user }: UsePokeViewModelProps): PokeViewModel => {
             custodyAddressOfPoker: user.custody_address,
           }),
         });
+        if (res.status === 200) {
+          setPokeError(null);
+          setPokedUserMessage(`${user.username} poked ${username}!`);
+          console.log("pokeUser", res);
+        }
         if (res.status === 404) {
           setPokeError("Invalid username to poke");
           setPokedUserMessage(null);
           return;
         }
-        setPokeError(null);
-        setPokedUserMessage(`${user.username} poked ${username}!`);
-        console.log("pokeUser", res);
+        if (res.status === 429) {
+          setPokeError("You have reached your daily poke quota");
+          setPokedUserMessage(null);
+          return;
+        }
+        setPokeError("Error poking user");
+        setPokedUserMessage(null);
+        return;
       } catch (err) {
         console.error(err);
       }
