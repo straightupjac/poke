@@ -148,7 +148,7 @@ app.frame('/poke-back', async (c) => {
                   whiteSpace: 'pre-wrap',
                 }}
               >
-                You can only poke back the user who poked you 🫵
+                You can only poke back if you&apos;ve been poked🫵
               </div>
             </div>
           ),
