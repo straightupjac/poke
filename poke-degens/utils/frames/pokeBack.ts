@@ -78,11 +78,15 @@ export default async function pokeBack({
       const getCastThread = await neynarClient.fetchAllCastsInThread(
         pokeChainCast.cast.hash
       );
+
       // make sure no one has poked back yet
       const alreadyPokedBack = getCastThread.result.casts.find((cast) => {
-        return cast.text
-          .trim()
-          .includes(`@${fromUsername} poked @${usernameToPoke} back`);
+        return (
+          cast.text
+            .trim()
+            .includes(`@${fromUsername} poked @${usernameToPoke} back`) &&
+          cast.embeds.find((embed) => embed.url === FRAME_URL)
+        );
       });
       if (alreadyPokedBack) {
         console.error(
