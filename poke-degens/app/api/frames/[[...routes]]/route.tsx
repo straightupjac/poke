@@ -353,7 +353,7 @@ app.frame('/poke-someone-else', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          Poke someone 🤭
+          Poke someone else 🤭
         </div>
       </div>
     ),
